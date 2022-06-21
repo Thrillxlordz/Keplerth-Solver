@@ -3,12 +3,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
-  $(document).ready(function() {
-    $("#frameSlider").on("change", function() {
-      fps = $("#frameSlider").val()
-      //Is it possible to change the framerate after setup()?
-    })
-  })
+
 </script>
 
 <style>
@@ -32,6 +27,7 @@
     text-align: left;
     background-color: rgb(75, 75, 75);
   }
+
 </style>
 <!DOCTYPE html>
 <html>
@@ -40,10 +36,6 @@
   </head>
   <body>
     <h1 class="header">Prime Spiral
-      <span style="float:left" class="sliderInfo">
-        <p>FPS (Broken)</p>
-        <input type="range" min="1" max="60" value="30" class="slider" id="frameSlider">
-      </span>
       <span style="float:right">
         <a style="font-size:16px" href="https://thrillxlordz.github.io">Home
         </a>
