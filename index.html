@@ -3,7 +3,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
-//test
+
 </script>
 
 <style>
@@ -28,6 +28,21 @@
     background-color: rgb(75, 75, 75);
   }
 
+.buttons {
+  position: relative;
+  top: -2%;
+  text-align: center;
+  margin-bottom: -3%;
+}
+
+  button {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
 </style>
 <!DOCTYPE html>
 <html>
@@ -41,6 +56,11 @@
         </a>
       </span>
     </h1>
+    <div class="buttons">
+      <button type="button" id="saveShape" onclick="saveShape();">Save Shape</button>
+      <button type="button" id="clearShapes" onclick="clearShapes();">Clear Shape</button>
+      <button type="button" id="solveShapes" onclick="solveShapes();">Solve Shape</button>
+    </div>
     <p id="canvas">
     </p>
  </body>
