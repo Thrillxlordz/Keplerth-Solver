@@ -19,6 +19,9 @@ function setup() {
   myCanvas.parent("#canvas")
   backgroundColor = window.getComputedStyle(document.getElementById("canvas")).getPropertyValue('background-color')
   background(backgroundColor)
+  
+  textSize(canvasX / 40)
+  textAlign(RIGHT)
 
   scalar = min(canvasX, canvasY) / 4000
   verticalSpacing = scalar * 300
@@ -64,6 +67,22 @@ function draw() {
     }
   }
 
+  stroke(1)
+  strokeWeight(1)
+  let numHexes = 0
+  shapes.forEach(obj => numHexes += obj.xIndex.length)
+  hexagons.forEach(row => row.forEach(hex => {
+    if (hex.isSelected) {
+      numHexes++
+    }
+  }))
+  if (numHexes <= 44) {
+    fill(0)
+  } else {
+    fill(color(255, 0, 0))
+  }
+  text(numHexes + " / 44", 0, canvasY * 0.85, canvasX / 4 + horizontalSpacing)
+
 }
 
 // saves the currently drawn shape to savedShapes
@@ -88,6 +107,13 @@ function saveShape() {
 
 // clears the saved shapes
 function clearShapes() {
+  hexagons = []
+  for (let i = 0; i < 7; i++) {
+    hexagons.push([])
+    for (let j = 0; j < 8 - Math.abs(i - 3); j++) {
+      hexagons[i].push(new hexagon(canvasX/4 + (j-2)*horizontalSpacing - (3-Math.abs(3-i))*horizontalSpacing/2, canvasY/2 + (i-3)*verticalSpacing, scalar))
+    }
+  }
   shapes = []
 }
 
@@ -106,7 +132,6 @@ function solveShapes() {
       }
     }
     let xShift = obj.xIndex[0]
-    console.log(xShift)
     for (let i = 0; i < obj.xIndex.length; i++) {
       obj.xIndex[i] -= xShift
     }
@@ -126,11 +151,9 @@ function solveShapes() {
       }
     }
   }
-  console.log(solutionGrid)
 }
 
-  // first shape, place it, then go down a level in recursion, and start at second shape
-  // ... until you reach the last shape in shapes
+// first shape, place it, then go down a level in recursion, and start at second shape until you reach the last shape in shapes
 function recursiveSolver(ind) {
 
   if (ind >= shapes.length) {
@@ -155,6 +178,7 @@ function recursiveSolver(ind) {
   return false
 }
 
+// changes the current solutionGrid, adding/removing a shape
 function updateSolution(obj, xOffset, yOffset, ind) {
   for (let i = 0; i < obj.xIndex.length; i++) {
     let xVal = obj.xIndex[i] + xOffset
@@ -164,6 +188,7 @@ function updateSolution(obj, xOffset, yOffset, ind) {
   }
 }
 
+// Checks if a given shape is within the boundaries of the grid
 function withinBoundaries(obj, xOffset, yOffset) {
   let isValid = true;
   for (let i = 0; i < obj.xIndex.length; i++) {
@@ -188,6 +213,7 @@ function withinBoundaries(obj, xOffset, yOffset) {
   return isValid
 }
 
+// Checks if a given shape is overlapping with other shapes in the solutionGrid
 function notOverlapping(obj, xOffset, yOffset) {
   let isValid = true;
   for (let i = 0; i < obj.xIndex.length; i++) {
@@ -221,6 +247,7 @@ function mouseClicked() {
   mouseIsPressed = false;
 }
 
+// A collection of hexes
 class shape {
   constructor(xIndex = [], yIndex = []) {
     this.xIndex = xIndex
